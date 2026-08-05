@@ -2,101 +2,36 @@
 
 namespace Drupal\webform_replicado\Element;
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\Textfield;
-
-
+use Drupal\Core\Render\Element\Select;
 
 /**
  * Provides a department element.
  *
  * @FormElement("departamentos_fflch")
  */
+class DepartamentosElement extends Select {
 
-
-class DepartamentosElement extends Textfield {
-
+  /**
+   * {@inheritdoc}
+   */
   public function getInfo(): array {
-    $class = get_class($this);
     return parent::getInfo() + [
       '#input' => TRUE,
-      '#element_validate' => [
-        [$class, 'validateDepartamentos'],
+      '#empty_option' => t('- Selecione um departamento -'),
+      '#options' => [
+        'fla' => 'Departamento de Antropologia (FLA)',
+        'flp' => 'Departamento de Ciência Política (FLP)',
+        'flf' => 'Departamento de Filosofia (FLF)',
+        'flg' => 'Departamento de Geografia (FLG)',
+        'flh' => 'Departamento de História (FLH)',
+        'flc' => 'Departamento de Letras Clássicas e Vernáculas (FLC)',
+        'flm' => 'Departamento de Letras Modernas (FLM)',
+        'flo' => 'Departamento de Letras Orientais (FLO)',
+        'fll' => 'Departamento de Linguística (FLL)',
+        'fsl' => 'Departamento de Sociologia (FSL)',
+        'flt' => 'Departamento de Teoria Literária e Literatura Comparada (FLT)',
       ],
     ];
   }
 
-
-
-
-
-public static function validateDepartamentos(&$element, FormStateInterface $form_state, &$complete_form): void {
-    
- $value = $element['#value'];
-
- $value = mb_strtolower($element['#value'], 'UTF-8');
-
- $value = strtr($value, [
-  'á' => 'a', 'à' => 'a', 'ã' => 'a', 'â' => 'a',
-  'é' => 'e', 'ê' => 'e',
-  'í' => 'i',
-  'ó' => 'o', 'ô' => 'o', 'õ' => 'o',
-  'ú' => 'u',
-  'ç' => 'c',
- ]);
-
- $departamentos = [
-  'departamento de antropologia',
-  'departamento de ciencia politica',
-  'departamento de filosofia',
-  'departamento de geografia',
-  'departamento de historia',
-  'departamento de letras classicas e vernaculas',
-  'departamento de letras modernas',
-  'departamento de letras orientais',
-  'departamento de linguistica',
-  'departamento de sociologia',
-  'departamento de teoria literaria e literatura comparada',
-  'antropologia',
-  'ciencia politica',
-  'filosofia',
-  'geografia',
-  'historia',
-  'letras classicas e vernaculas',
-  'letras modernas',
-  'letras orientais',
-  'linguistica',
-  'sociologia',
-  'teoria literaria e literatura comparada',  
-  'fla',
-  'flp',
-  'flf',
-  'flg',
-  'flh',
-  'flc',
-  'flm',
-  'flo',
-  'fll',
-  'fsl',
-  'flt',
- ];
-
-$valido = FALSE;
-
-  foreach ($departamentos as $departamento) {
-    if (str_contains($value, $departamento)) {
-      $valido = TRUE;
-      break;
-    }
-  }
-
-  if (!$valido) {
-    $form_state->setError(
-      $element,
-      t('Esse departamento não é da FFLCH.')
-    );
-  }
-  }
-}  
- 
-  
+}

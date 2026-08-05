@@ -2,7 +2,7 @@
 
 namespace Drupal\webform_replicado\Plugin\WebformElement;
 
-use Drupal\webform\Plugin\WebformElement\TextField;
+use Drupal\webform\Plugin\WebformElement\Select;
 
 /**
  * Provides a 'departamentos_fflch' Webform element.
@@ -13,5 +13,5 @@ use Drupal\webform\Plugin\WebformElement\TextField;
  *   category = @Translation("USP")
  * )
  */
-class DepartamentosElement extends TextField {
+class DepartamentosElement extends Select {
 }

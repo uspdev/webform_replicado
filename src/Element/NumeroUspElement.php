@@ -4,9 +4,7 @@ namespace Drupal\webform_replicado\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Textfield;
-use Uspdev\Replicado\Pessoa;
 use Uspdev\Replicado\Replicado;
-
 /**
  * Provides a USP number element.
  *
@@ -58,24 +56,22 @@ class NumeroUspElement extends Textfield {
         }
         break;
     }
-       //validação para garantir que o número usp existe 
-      
-      //$config = [
-      //'host' => '192.168.100.89',
-      //'port' => 1498,
-      //'database' => 'rep_dbc',
-      //'username' => 'dbmaint_read',
-      //'password' => 'secret',
-      //'codundclg' => '8',
-      //'codundclgs' => '8,84',
-      //'pathlog' => 'path/to/your.log',
-      //'sybase' => true,
-      //'usarCache' => false,
-      //'debug' => false,
-      //'debugLevel' => 1,
-      // $validação = $config->get('validação')
-      //];
-    
-  }
+  $config = \Drupal::config('webform_replicado.settings');
 
-}
+$config_replicado = [
+  'host' => $config->get('host'),
+  'port' => $config->get('port'),
+  'database' => $config->get('database'),
+  'username' => $config->get('username'),
+  'codundclg' => $config->get('codundclg'),
+  'codundclgs' => $config->get('codundclgs'),
+  'pathlog' => 'path/to/your.log',
+  'sybase' => TRUE,
+  'usarCache' => FALSE,
+  'debug' => FALSE,
+  'debugLevel' => 1,
+];
+
+Replicado::setConfig($config_replicado); 
+  }
+} 
