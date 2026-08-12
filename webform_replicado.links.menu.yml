@@ -1,0 +1,6 @@
+webform_replicado.settings:
+  title: 'Webform Replicado'
+  description: 'Configurações de webform para replicado'
+  parent: system.admin_config_system
+  route_name: webform_replicado.settings
+  weight: 10

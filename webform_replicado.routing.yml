@@ -1,0 +1,7 @@
+webform_replicado.settings:
+  path: '/admin/config/webform_replicado/settings'
+  defaults:
+    _title: 'Settings'
+    _form: 'Drupal\webform_replicado\Form\SettingsForm'
+  requirements:
+    _permission: 'administer site configuration'
