@@ -30,39 +30,36 @@ final class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
-  $config = $this->config('webform_replicado.settings');
+    $config = $this->config('webform_replicado.settings');
 
-    $form['replicado'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Configurações do Replicado'),
+    $form['database_name'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Database Name'),
+      '#maxlength' => 64,
+      '#size' => 20,
+      '#default_value' => $config->get('database_name'),
     ];
-
-    $form['replicado']['config_departamentos'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Departamentos'),
-      '#description' => $this->t('Área de configuração da validação de Departamentos.'),
-      '#default_value' => $config->get('config_departamentos'),
+    $form['database_port'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Database Port'),
+      '#default_value' => $config->get('database_port'),
     ];
-
-    $form['replicado']['config_pos_graduacao'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Pós-Graduação'),
-      '#description' => $this->t('Área de configuração da validação de Pós-Graduação.'),
-      '#default_value' => $config->get('config_pos_grad'),
+    $form['database_host'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Database Host'),
+      '#default_value' => $config->get('database_host'),
     ];
-
-    $form['replicado']['config_numero_usp'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Número USP'),
-      '#description' => $this->t('Área de configuração da validação de Número USP.'),
-      '#default_value' => $config->get('config_numero_usp'),
+    $form['database_user'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Database User'),
+      '#default_value' => $config->get('database_user'),
     ];
-
-    $form['replicado']['config_habilitacoes'] = [
-      '#type' => 'textarea',
-      '#title' => $this->t('Habilitações'),
-      '#description' => $this->t('Área de configuração da validação de Habilitações.'),
-      '#default_value' => $config->get('config_habilitacoes'),
+    $form['database_password'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Database password'),
+      '#maxlength' => 64,
+      '#size' => 20,
+      '#default_value' => $config->get('database_password'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -90,10 +87,11 @@ final class SettingsForm extends ConfigFormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->config('webform_replicado.settings')
-    ->set('config_departamentos', $form_state->getValue('config_departamentos'))
-    ->set('config_pos_graduacao', $form_state->getValue('config_pos_grad'))
-    ->set('config_numero_usp', $form_state->getValue('config_numero_usp'))
-    ->set('config_habilitacoes', $form_state->getValue('config_habilitacoes'))
+      ->set('database_name', $form_state->getValue('database_name'))
+      ->set('database_port', $form_state->getValue('database_port'))
+      ->set('database_host', $form_state->getValue('database_host'))
+      ->set('database_user', $form_state->getValue('database_user'))
+      ->set('database_password', $form_state->getValue('database_password'))
     ->save();
 
   parent::submitForm($form, $form_state);

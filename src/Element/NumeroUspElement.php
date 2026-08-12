@@ -4,7 +4,7 @@ namespace Drupal\webform_replicado\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Textfield;
-use Uspdev\Replicado\Replicado;
+use Uspdev\Replicado\Graduacao;
 /**
  * Provides a USP number element.
  *
@@ -28,50 +28,34 @@ class NumeroUspElement extends Textfield {
    */
   public static function validateNumeroUsp(&$element, FormStateInterface $form_state,&$complete_form): void {
 
-    $value = str_replace(['.', '-'], '', $element['#value']);
+    $value = trim($element['#value']);
 
-    $tipo = $form_state->getValue('tipo_de_vinculo');
+        /*** 1. Conexão com o banco de dados ***/
+    $config = \Drupal::service('config.factory')->getEditable('webform_replicado.settings');
+    $database_name = $config->get('database_name');
+    $database_port = $config->get('database_port');
+    $database_host = $config->get('database_host');
+    $database_user = $config->get('database_user');
+    $database_password = $config->get('database_password');
 
-    switch ($tipo) {
+    /* TODO: Verificar se conexação ok */
+    putenv("REPLICADO_HOST={$database_host}");
+    putenv("REPLICADO_PORT={$database_port}");
+    putenv("REPLICADO_DATABASE={$database_name}");
+    putenv("REPLICADO_USERNAME={$database_user}");
+    putenv("REPLICADO_PASSWORD={$database_password}");
 
-      case 'intercambista':
-      case 'funcionario':
-        if (strlen($value) != 7) {
-          $form_state->setError(
-            $element,
-            t('O Número USP deve possuir 7 dígitos.')
-          );
-        }
-        break; 
+    #putenv("REPLICADO_FAKE=");
 
-      case 'docente':
-      case 'graduacao':
-      case 'pos':
-      default:
-        if (strlen($value) != 8) {
-          $form_state->setError(
-            $element,
-            t('O Número USP deve possuir 8 dígitos.')
-          );
-        }
-        break;
+    // Replicado e verificar se é um número USP válido
+    if (!Graduacao::verifica($value,8)) {
+      $form_state->setError(
+        $element,
+        t('Esse número USP não é de um(a) aluno(a) de graduação ativo')
+      );
     }
-  $config = \Drupal::config('webform_replicado.settings');
-
-$config_replicado = [
-  'host' => 'cloud.fflch.usp.br',
-  'port' => '5005',
-  'database' => 'fflch',
-  'username' => 'fflchdev',
-  'codundclg' => '8',
-  'codundclgs' => '8,84',
-  'pathlog' => '/tmp/replicado.log',
-  'sybase' => true,
-  'usarCache' => false,
-  'debug' => false,
-  'debugLevel' => 1,
-];
-
-Replicado::setConfig($config_replicado); 
   }
+
+
+
 } 
