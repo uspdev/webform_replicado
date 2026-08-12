@@ -2,6 +2,7 @@
 
 namespace Drupal\webform_replicado\Element;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Select;
 
 /**
@@ -32,6 +33,6 @@ class DepartamentosElement extends Select {
         'flt' => 'Departamento de Teoria Literária e Literatura Comparada (FLT)',
       ],
     ];
+    $config = \Drupal::config('webform_replicado.settings');
   }
-
 }

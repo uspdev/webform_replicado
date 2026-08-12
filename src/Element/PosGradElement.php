@@ -17,12 +17,11 @@ class PosGradElement extends Select {
   /**
    * {@inheritdoc}
    */
-  public function prepare(array &$element, ?WebformSubmissionInterface $webform_submission = NULL) {
-    parent::prepare($element, $webform_submission);
-
-    $element['#empty_option'] = '- Selecione um programa -';
-
-    $element['#options'] = [
+  public function getInfo(): array {
+    return parent::getInfo() + [
+      '#input' => TRUE,
+      '#empty_option' => t('- Selecione um departamento -'),
+      '#options' => [
       'antros' => 'Antropologia Social',
       'cipo' => 'Ciência Política',
       'ec' => 'Estudos Comparados de Literaturas de Língua Portuguesa',
@@ -48,7 +47,8 @@ class PosGradElement extends Select {
       'profletras' => 'PROFLETRAS',
       'socio' => 'Sociologia',
       'teolit' => 'Teoria Literária e Literatura Comparada',
+      ],
     ];
+    $config = \Drupal::config('webform_replicado.settings');
   }
-
 }

@@ -59,16 +59,16 @@ class NumeroUspElement extends Textfield {
   $config = \Drupal::config('webform_replicado.settings');
 
 $config_replicado = [
-  'host' => $config->get('host'),
-  'port' => $config->get('port'),
-  'database' => $config->get('database'),
-  'username' => $config->get('username'),
-  'codundclg' => $config->get('codundclg'),
-  'codundclgs' => $config->get('codundclgs'),
-  'pathlog' => 'path/to/your.log',
-  'sybase' => TRUE,
-  'usarCache' => FALSE,
-  'debug' => FALSE,
+  'host' => 'cloud.fflch.usp.br',
+  'port' => '5005',
+  'database' => 'fflch',
+  'username' => 'fflchdev',
+  'codundclg' => '8',
+  'codundclgs' => '8,84',
+  'pathlog' => '/tmp/replicado.log',
+  'sybase' => true,
+  'usarCache' => false,
+  'debug' => false,
   'debugLevel' => 1,
 ];
 
