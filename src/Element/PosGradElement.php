@@ -49,5 +49,6 @@ class PosGradElement extends Select {
       'teolit' => 'Teoria Literária e Literatura Comparada',
       ],
     ];
+    $config = \Drupal::config('webform_replicado.settings');
   }
 }

@@ -37,5 +37,6 @@ class HabilitacaoElement extends Select {
       'linguistica' => 'Linguística',
       ],
     ];
+    $config = \Drupal::config('webform_replicado.settings');
   }
 }
