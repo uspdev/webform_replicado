@@ -4,9 +4,6 @@ namespace Drupal\webform_replicado\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Select;
-use Drupal\Core\Form\FormState;
-use Uspdev\Replicado\Replicado;
-
 /**
  * Provides a language element.
  *
@@ -18,20 +15,10 @@ class HabilitacaoElement extends Select {
    * {@inheritdoc}
    */
   public function getInfo(): array {
-    $info = parent::getInfo();
-
-    $info['#element_validate'][] = [static::class, 'validateHabilitacao'];
-
-    return $info;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function defineDefaultProperties() {
-    $properties = parent::defineDefaultProperties();
-
-    $properties['options'] = [
+    return parent::getInfo() + [
+      '#input' => TRUE,
+      '#empty_option' => t('- Selecione uma Habilitação -'),
+      '#options' => [
       'portugues' => 'Português',
       'grego' => 'Grego',
       'latim' => 'Latim',
@@ -48,8 +35,7 @@ class HabilitacaoElement extends Select {
       'japones' => 'Japonês',
       'russo' => 'Russo',
       'linguistica' => 'Linguística',
+      ],
     ];
-
-    return $properties;
   }
 }
