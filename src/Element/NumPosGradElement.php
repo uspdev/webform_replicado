@@ -8,9 +8,9 @@ use Uspdev\Replicado\Pessoa;
 /**
  * Provides a USP number element.
  *
- * @FormElement("numero_usp")
+ * @FormElement("numero_posgrad")
  */
-class NumeroUspElement extends Textfield {
+class NumPosGradElement extends Textfield {
 
   public function getInfo(): array {
     $class = get_class($this);
@@ -18,7 +18,7 @@ class NumeroUspElement extends Textfield {
     return parent::getInfo() + [
       '#input' => TRUE,
       '#element_validate' => [
-        [$class, 'validateNumeroUsp'],
+        [$class, 'validateNumPosGrad'],
       ],
     ];
   }
@@ -26,7 +26,7 @@ class NumeroUspElement extends Textfield {
   /**
    * Validates the USP number.
    */
-  public static function validateNumeroUsp(&$element, FormStateInterface $form_state,&$complete_form): void {
+  public static function validateNumPosGrad(&$element, FormStateInterface $form_state,&$complete_form): void {
 
     $value = trim($element['#value']);
 
@@ -51,7 +51,7 @@ class NumeroUspElement extends Textfield {
     if (!Pessoa::dump($value)) {
       $form_state->setError(
         $element,
-        t('Esse número USP não é de um(a) aluno(a) de graduação ativo')
+        t('Esse número USP não é de um(a) aluno(a) de pós-graduação ativo(a).')
       );
     }
   }
