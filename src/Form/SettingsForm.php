@@ -61,6 +61,21 @@ final class SettingsForm extends ConfigFormBase {
       '#size' => 20,
       '#default_value' => $config->get('database_password'),
     ];
+    $form['replicado_fake'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Use Replicado Fake'),
+      '#maxlength' => 64,
+      '#size' => 20,
+      '#default_value' => $config->get('replicado_fake'),
+    ];
+
+    $form['cod_unidade'] = [
+      '#type' => 'checkbox',
+      '#title' => $this ->t('Use código da unidade'),
+      '#maxlength' => 64,
+      '#size' => 20,
+      '#default_value' => $config->get ('cod_unidade')
+    ];
 
     return parent::buildForm($form, $form_state);
   }
@@ -92,7 +107,8 @@ final class SettingsForm extends ConfigFormBase {
       ->set('database_host', $form_state->getValue('database_host'))
       ->set('database_user', $form_state->getValue('database_user'))
       ->set('database_password', $form_state->getValue('database_password'))
-    ->save();
+      ->set('replicado_fake', $form_state->getValue('replicado_fake'))
+      ->save();
 
   parent::submitForm($form, $form_state);
   }

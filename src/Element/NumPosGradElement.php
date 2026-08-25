@@ -4,7 +4,7 @@ namespace Drupal\webform_replicado\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Textfield;
-use Uspdev\Replicado\Pessoa;
+use Uspdev\Replicado\Posgraduacao;
 /**
  * Provides a USP number element.
  *
@@ -45,10 +45,22 @@ class NumPosGradElement extends Textfield {
     putenv("REPLICADO_USERNAME={$database_user}");
     putenv("REPLICADO_PASSWORD={$database_password}");
 
-    #putenv("REPLICADO_FAKE=");
+   /*Opção fake */
+    if($config->get('replicado_fake') == 1) {
+      putenv('REPLICADO_FAKE=1');
+    } else {
+      putenv('REPLICADO_FAKE=0');
+    }
+  
+    /*Opção código de unidade */
+    if($config->get('cod_unidade') == 1) {
+      putenv('REPLICADO_CODUNDCLG=8');
+    } else {
+      putenv('REPLICADO_CODUNDCLGS=8,84');
+    }
 
     // Replicado e verificar se é um número USP válido
-    if (!Pessoa::dump($value)) {
+    if (!Posgraduacao::verifica($value, 8)) {
       $form_state->setError(
         $element,
         t('Esse número USP não é de um(a) aluno(a) de pós-graduação ativo(a).')
