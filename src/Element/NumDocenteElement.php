@@ -37,6 +37,8 @@ class NumDocenteElement extends Textfield {
     $database_host = $config->get('database_host');
     $database_user = $config->get('database_user');
     $database_password = $config->get('database_password');
+    $database_fake = $config->get('replicado_fake');
+    $database_codunidade = $config->get('cod_unidade');
 
     /* TODO: Verificar se conexação ok */
     putenv("REPLICADO_HOST={$database_host}");
@@ -44,6 +46,7 @@ class NumDocenteElement extends Textfield {
     putenv("REPLICADO_DATABASE={$database_name}");
     putenv("REPLICADO_USERNAME={$database_user}");
     putenv("REPLICADO_PASSWORD={$database_password}");
+    
 
     /*Opção fake */
     if($config->get('replicado_fake') == 1) {
