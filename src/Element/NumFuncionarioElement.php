@@ -37,6 +37,8 @@ class NumFuncionarioElement extends Textfield {
     $database_host = $config->get('database_host');
     $database_user = $config->get('database_user');
     $database_password = $config->get('database_password');
+    $database_fake = $config->get('replicado_fake');
+    $database_codunidade = $config->get('cod_unidade');
 
     /* TODO: Verificar se conexação ok */
     putenv("REPLICADO_HOST={$database_host}");
