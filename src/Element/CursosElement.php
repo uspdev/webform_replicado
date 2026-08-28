@@ -4,21 +4,20 @@ namespace Drupal\webform_replicado\Element;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\Select;
-use Uspdev\Replicado\Posgraduacao;
+use Uspdev\Replicado\Graduacao;
 
 /**
- * Provides a custom PosGrad select element.
+ * Provides a custom Graduacao Cursos select element.
  *
- * @FormElement("pos_grad")
+ * @FormElement("cursos")
  */
-class PosGradElement extends Select {
+class CursosElement extends Select {
 
   /**
    * {@inheritdoc}
    */
   public function getInfo(): array {
     $class = get_class($this);
-    
 
     $config = \Drupal::service('config.factory')->getEditable('webform_replicado.settings');
     $database_name = $config->get('database_name');
@@ -31,31 +30,43 @@ class PosGradElement extends Select {
     // Se não for informado na configuração, define o padrão 8
     $database_codunidade = $config->get('cod_unidade') ?: 8;
 
-    /* TODO: Verificar se conexação ok */
+    /* Conexão com o Replicado */
     putenv("REPLICADO_HOST={$database_host}");
     putenv("REPLICADO_PORT={$database_port}");
     putenv("REPLICADO_DATABASE={$database_name}");
     putenv("REPLICADO_USERNAME={$database_user}");
     putenv("REPLICADO_PASSWORD={$database_password}");
+    putenv("REPLICADO_CODUNDCLG={$database_codunidade}");
 
     // Define se deve utilizar o modo FAKE
     if ($database_fake) {
-      putenv("REPLICADO_FAKE=1");
+      putenv("REPLICADO_FAKE=true");
     } else {
-      putenv("REPLICADO_FAKE=0");
+      putenv("REPLICADO_FAKE=false");
     }
 
-    $areas = Posgraduacao::programas(8);
+    $options = [];
 
-    $options = array_column($areas, 'nomare', 'codare');
-    asort($options);
+    try {
+      $cursos = Graduacao::listarCursos($database_codunidade);
+
+      if (!empty($cursos) && is_array($cursos)) {
+        $options = array_column($cursos, 'nomcur', 'codcur');
+        asort($options);
+      }
+    } 
+    catch (\Throwable $e) {
+      \Drupal::logger('webform_replicado')->error('Erro ao listar cursos do Replicado: @msg', [
+        '@msg' => $e->getMessage(),
+      ]);
+    }
 
     return [
       '#input' => TRUE,
-      '#empty_option' => $this->t('- Selecione um Programa -'),
+      '#empty_option' => $this->t('- Selecione um curso -'),
       '#options' => $options,
       '#element_validate' => [
-        [$class, 'validatePosGrad'],
+        [$class, 'validateCursos'],
       ],
     ] + parent::getInfo();
   }
@@ -63,7 +74,7 @@ class PosGradElement extends Select {
   /**
    * Validação do elemento (se necessário).
    */
-  public static function validatePosGrad(&$element, FormStateInterface $form_state, &$complete_form): void {
+  public static function validateCursos(&$element, FormStateInterface $form_state, &$complete_form): void {
     // Adicione validações customizadas aqui, se preciso.
   }
 

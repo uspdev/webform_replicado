@@ -9,9 +9,9 @@ use Drupal\webform\Plugin\WebformElement\Select;
  *
  * @WebformElement(
  *   id = "pos_grad",
- *   label = @Translation("Pós-Graduação (Opções Fixas)"),
+ *   label = @Translation("Pós-Graduação"),
  *   description = @Translation("Exibe um select com os departamentos de pós-graduação."),
- *   category = @Translation("Options elements"),
+ *   category = @Translation("USP"),
  * )
  */
 class PosGradElement extends Select {

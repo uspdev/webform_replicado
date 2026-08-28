@@ -5,16 +5,16 @@ namespace Drupal\webform_replicado\Plugin\WebformElement;
 use Drupal\webform\Plugin\WebformElement\Select;
 
 /**
- * Provides a 'departamentos' webform element.
+ * Provides a 'cursos' webform element.
  *
  * @WebformElement(
- *   id = "departamentos",
- *   label = @Translation("Departamentos"),
- *   description = @Translation("Exibe um select com os departamentos da FFLCH."),
+ *   id = "cursos",
+ *   label = @Translation("Cursos"),
+ *   description = @Translation("Exibe um select com os cursos da FFLCH."),
  *   category = @Translation("USP"),
  * )
  */
-class DepartamentosElement extends Select {
+class CursosElement extends Select {
 
   /**
    * {@inheritdoc}
