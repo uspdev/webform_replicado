@@ -19,7 +19,7 @@ class PosGradElement extends Select {
   public function getInfo(): array {
     $class = get_class($this);
     
-
+    /*** 1. Conexão com o banco de dados ***/
     $config = \Drupal::service('config.factory')->getEditable('webform_replicado.settings');
     $database_name = $config->get('database_name');
     $database_port = $config->get('database_port');

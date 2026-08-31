@@ -30,7 +30,7 @@ class NumPosGradElement extends Textfield {
 
     $value = trim($element['#value']);
 
-        /*** 1. Conexão com o banco de dados ***/
+    /*** 1. Conexão com o banco de dados ***/
     $config = \Drupal::service('config.factory')->getEditable('webform_replicado.settings');
     $database_name = $config->get('database_name');
     $database_port = $config->get('database_port');
@@ -38,7 +38,9 @@ class NumPosGradElement extends Textfield {
     $database_user = $config->get('database_user');
     $database_password = $config->get('database_password');
     $database_fake = $config->get('replicado_fake');
-    $database_codunidade = $config->get('cod_unidade');
+    
+    // Se não for informado na configuração, define o padrão 8
+    $database_codunidade = $config->get('cod_unidade') ?: 8;
 
     /* TODO: Verificar se conexação ok */
     putenv("REPLICADO_HOST={$database_host}");
@@ -46,21 +48,15 @@ class NumPosGradElement extends Textfield {
     putenv("REPLICADO_DATABASE={$database_name}");
     putenv("REPLICADO_USERNAME={$database_user}");
     putenv("REPLICADO_PASSWORD={$database_password}");
+    putenv("REPLICADO_CODUNDCLG={$database_codunidade}");
 
-   /*Opção fake */
+   //Opção fake
     if($config->get('replicado_fake') == 1) {
       putenv('REPLICADO_FAKE=1');
     } else {
       putenv('REPLICADO_FAKE=0');
     }
   
-    /*Opção código de unidade */
-    if($config->get('cod_unidade') == 1) {
-      putenv('REPLICADO_CODUNDCLG=8');
-    } else {
-      putenv('REPLICADO_CODUNDCLGS=8,84');
-    }
-
     // Replicado e verificar se é um número USP válido
     if (!Posgraduacao::verifica($value, 8)) {
       $form_state->setError(
