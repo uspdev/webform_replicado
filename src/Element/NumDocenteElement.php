@@ -43,7 +43,7 @@ class NumDocenteElement extends Textfield {
     // Se não for informado na configuração, define o padrão 8
     $database_codunidade = $config->get('cod_unidade') ?: 8;
 
-    /* TODO: Verificar se conexação ok */
+    /* Conexão com replicado*/
     putenv("REPLICADO_HOST={$database_host}");
     putenv("REPLICADO_PORT={$database_port}");
     putenv("REPLICADO_DATABASE={$database_name}");
